@@ -73,7 +73,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             tvOverview.setMovementMethod(new ScrollingMovementMethod());
-            Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
+            Glide.with(context).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder)
+                    .into(ivPoster);
         }
     }
 }
