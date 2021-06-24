@@ -1,6 +1,7 @@
 package com.codepath.sxiao1.flixster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,7 +74,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
             tvOverview.setMovementMethod(new ScrollingMovementMethod());
-            Glide.with(context).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder)
+            String imageUrl;
+            int placeholderIcon;
+            //if phone is in landscape
+            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                imageUrl = movie.getBackdropPath();
+                placeholderIcon = R.drawable.flicks_movie_placeholder;
+            } else {//if phone is in portrait
+                imageUrl = movie.getPosterPath();
+                placeholderIcon = R.drawable.flicks_backdrop_placeholder;
+            }
+            Glide.with(context).load(imageUrl).placeholder(placeholderIcon)
                     .into(ivPoster);
         }
     }
