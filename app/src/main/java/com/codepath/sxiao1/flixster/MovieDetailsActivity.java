@@ -13,6 +13,8 @@ import com.codepath.sxiao1.flixster.models.Movie;
 
 import org.parceler.Parcels;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class MovieDetailsActivity extends AppCompatActivity {
     Movie movie;
 
@@ -34,7 +36,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", movie.getTitle()));
 
-        Glide.with(this).load(movie.getPosterPath()).placeholder(R.drawable.flicks_movie_placeholder)
+
+        Glide.with(this)
+                .load(movie.getPosterPath())
+                .placeholder(R.drawable.flicks_movie_placeholder)
                 .into(ivPoster2);
 
         tvTitle.setText(movie.getTitle());
