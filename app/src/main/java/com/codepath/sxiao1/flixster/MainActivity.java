@@ -25,7 +25,7 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
+    public static String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=%s";
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NOW_PLAYING_URL += getString(R.string.movie_api_key);
+        NOW_PLAYING_URL = String.format(NOW_PLAYING_URL, getString(R.string.movie_api_key));
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         TextView textView = (TextView)myToolbar.findViewById(R.id.toolbarTextView);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure");
+                Log.d(TAG, "onFailure" + s , throwable);
             }
         });
 
