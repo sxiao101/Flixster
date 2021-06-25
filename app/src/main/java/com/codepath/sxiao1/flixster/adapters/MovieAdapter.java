@@ -1,6 +1,7 @@
 package com.codepath.sxiao1.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -14,10 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.sxiao1.flixster.MovieDetailsActivity;
 import com.codepath.sxiao1.flixster.R;
 import com.codepath.sxiao1.flixster.models.Movie;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -56,7 +59,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         return movies.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView tvTitle;
         TextView tvOverview;
@@ -67,7 +70,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
-
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Movie movie) {
@@ -79,13 +82,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             //if phone is in landscape
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 imageUrl = movie.getBackdropPath();
-                placeholderIcon = R.drawable.flicks_movie_placeholder;
+                placeholderIcon = R.drawable.flicks_backdrop_placeholder;
             } else {//if phone is in portrait
                 imageUrl = movie.getPosterPath();
-                placeholderIcon = R.drawable.flicks_backdrop_placeholder;
+                placeholderIcon = R.drawable.flicks_movie_placeholder;
             }
             Glide.with(context).load(imageUrl).placeholder(placeholderIcon)
                     .into(ivPoster);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getAdapterPosition();
+            Movie movie = movies.get(position);
+            Intent intent = new Intent(context, MovieDetailsActivity.class);
+            intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+            context.startActivity(intent);
+
         }
     }
 }
